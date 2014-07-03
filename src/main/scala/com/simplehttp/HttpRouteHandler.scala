@@ -21,9 +21,9 @@ trait HttpRouteHandler[T] {
 
   def contentType: MimeTypes
 
-  def process(request: Request, application: T): Either[String, Array[Byte]]
+  def process(request: Request, application: Option[T]): Either[String, Array[Byte]]
 
-  def handleRequest(request: Request, response: Response, application: T) = {
+  def handleRequest(request: Request, response: Response, application: Option[T]) = {
     val body: PrintStream = response.getPrintStream
     val time: Long = System.currentTimeMillis()
     response.setValue("Content-Type", contentType)
@@ -53,9 +53,9 @@ trait HttpRouteHandler[T] {
 trait BinaryMsgPackHandler[T, V] extends HttpRouteHandler[T] {
   override def contentType: MimeTypes = MimeTypes.binarymsgpack
 
-  def getResult(arguments: immutable.Map[String, Value], application: T): V
+  def getResult(arguments: immutable.Map[String, Value], application: Option[T]): V
 
-  override def process(request: Request, application: T): Either[String, Array[Byte]] = {
+  override def process(request: Request, application: Option[T]): Either[String, Array[Byte]] = {
     val contentBytes: Array[Byte] = Streamable.bytes(request.getInputStream)
     if (contentBytes.length > 0) {
       val arguments: Map[String, Value] = read[Map[String, Value]](contentBytes)
@@ -69,7 +69,7 @@ trait BinaryMsgPackHandler[T, V] extends HttpRouteHandler[T] {
 object DefaultRouteHandler extends HttpRouteHandler[Any] {
   override def contentType: MimeTypes = MimeTypes.text
 
-  override def process(request: Request, application: Any): Either[String, Array[Byte]] = {
+  override def process(request: Request, application: Option[Any]): Either[String, Array[Byte]] = {
     Left(s"${BuildInfo.name} version ${BuildInfo.version}")
   }
 }

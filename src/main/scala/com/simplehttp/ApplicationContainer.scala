@@ -12,7 +12,7 @@ import org.simpleframework.http.{Response, Request}
 // the server container
 //
 // ---------------------------------------------------------------------------------------------------------------------
-abstract class ApplicationContainer[T](val application: T) extends Container {
+abstract class ApplicationContainer[T](val application: Option[T]=None) extends Container {
   protected val routes: mutable.Map[String, HttpRouteHandler[T]] = mutable.Map[String, HttpRouteHandler[T]]()
 
   def handle(request: Request, response: Response) = {
