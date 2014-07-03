@@ -44,7 +44,7 @@ trait HttpRouteHandler[T] {
       }
       response.setCode(200) // on success
     } catch {
-      case Exception => response.setCode(500) // on error
+      case e:Exception => response.setCode(500) // on error
     }
     finally {
       body.close()
