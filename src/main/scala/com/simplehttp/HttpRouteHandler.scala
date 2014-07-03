@@ -42,7 +42,9 @@ trait HttpRouteHandler[T] {
         case Left(stringContent) => body.println(stringContent)
         case Right(binaryContent) => body.write(binaryContent)
       }
-
+      response.setCode(200) // on success
+    } catch {
+      case Exception => response.setCode(500) // on error
     }
     finally {
       body.close()
