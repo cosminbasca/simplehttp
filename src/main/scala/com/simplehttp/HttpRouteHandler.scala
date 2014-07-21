@@ -3,7 +3,7 @@ package com.simplehttp
 import scala.collection.{immutable, mutable}
 import com.simplehttp.MimeTypes._
 import org.simpleframework.http.{Response, Request}
-import java.io.PrintStream
+import java.io.{PrintWriter, StringWriter, PrintStream}
 import org.msgpack.ScalaMessagePack._
 import org.msgpack.`type`.Value
 import org.slf4j.LoggerFactory
@@ -44,7 +44,11 @@ trait HttpRouteHandler[T] {
       }
       response.setCode(200) // on success
     } catch {
-      case e:Exception => response.setCode(500) // on error
+      case e:Exception =>
+        response.setCode(500) // on error
+        val sw:StringWriter = new StringWriter()
+        e.printStackTrace(new PrintWriter(sw))
+        body.println(sw.toString)
     }
     finally {
       body.close()
@@ -75,3 +79,4 @@ object DefaultRouteHandler extends HttpRouteHandler[Any] {
     Left(s"${BuildInfo.name} version ${BuildInfo.version}")
   }
 }
+
