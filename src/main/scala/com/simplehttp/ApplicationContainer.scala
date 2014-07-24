@@ -18,6 +18,14 @@ abstract class ApplicationContainer[T](val application: Option[T]=None) extends 
   /**
    * the routes [[mutable.Map]], inheriting application containers should populate this map with the
    * appropriate handlers for a given route (path)
+   *
+   * a simple example:
+   * {{{
+   *   class MyAppContainer[MyApp] = {
+   *      routes += "hello" -> new HellowWorldHandler[MyApp]()
+   *      routes += "other" -> new OtherHandler[MyApp]()
+   *   }
+   * }}}
    */
   protected val routes: mutable.Map[String, HttpRouteHandler[T]] = mutable.Map[String, HttpRouteHandler[T]]()
 
