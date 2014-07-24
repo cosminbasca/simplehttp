@@ -9,6 +9,8 @@ assemblySettings
 
 name := "simplehttp"
 
+organization := "com.simplehttp"
+
 version := "0.1.4"
 
 scalaVersion := "2.10.4"
