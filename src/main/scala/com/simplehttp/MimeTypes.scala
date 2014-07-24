@@ -3,6 +3,10 @@ package com.simplehttp
 /**
  * Created by basca on 04/06/14.
  */
+
+/**
+ * a non-exhaustive list of (most used) Mimetypes
+ */
 object MimeTypes extends Enumeration {
   type MimeTypes = String
 

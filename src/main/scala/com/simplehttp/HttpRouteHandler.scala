@@ -14,15 +14,47 @@ import scala.reflect.io.Streamable
 /**
  * Created by basca on 04/06/14.
  */
+
+/**
+ * the trait of all Http Handlers for a specific route
+ * @tparam T the passed application type
+ */
 trait HttpRouteHandler[T] {
+  /**
+   * internal logger
+   */
   val logger = Logger(LoggerFactory getLogger "tRush")
 
+  /**
+   * request headers, inheriting classes can add specific headers to this map which will later be included in the
+   * request
+   */
   val headers: mutable.Map[String, String] = mutable.Map[String, String]()
 
+  /**
+   * the content type matching the content of the response of this handler
+   *
+   * @return the content type
+   */
   def contentType: MimeTypes
 
+  /**
+   * request processor
+   *
+   * @param request the request
+   * @param application the application
+   * @return either a string or a byte array
+   */
   def process(request: Request, application: Option[T]): Either[String, Array[Byte]]
 
+  /**
+   * the actual request handler.
+   * Exceptions are trapped and returned in a response with HTTP code 500, else control is passed to the [[process]] method
+   *
+   * @param request the request
+   * @param response the response
+   * @param application the application
+   */
   def handleRequest(request: Request, response: Response, application: Option[T]) = {
     val body: PrintStream = response.getPrintStream
     val time: Long = System.currentTimeMillis()
@@ -44,9 +76,9 @@ trait HttpRouteHandler[T] {
       }
       response.setCode(200) // on success
     } catch {
-      case e:Exception =>
+      case e: Exception =>
         response.setCode(500) // on error
-        val sw:StringWriter = new StringWriter()
+      val sw: StringWriter = new StringWriter()
         e.printStackTrace(new PrintWriter(sw))
         body.println(sw.toString)
     }
@@ -56,6 +88,12 @@ trait HttpRouteHandler[T] {
   }
 }
 
+/**
+ * a [[http://msgpack.org/ MessagePack]] binary message handler trait
+ *
+ * @tparam T the passed application type
+ * @tparam V the processed content type
+ */
 trait BinaryMsgPackHandler[T, V] extends HttpRouteHandler[T] {
   override def contentType: MimeTypes = MimeTypes.binarymsgpack
 
@@ -72,6 +110,12 @@ trait BinaryMsgPackHandler[T, V] extends HttpRouteHandler[T] {
   }
 }
 
+/**
+ * a default request handler. Used by the [[com.simplehttp.ApplicationContainer]] when no handler is found for the
+ * current route.
+ *
+ * The handler simply returns the current version stored in [[com.simplehttp.BuildInfo]]
+ */
 object DefaultRouteHandler extends HttpRouteHandler[Any] {
   override def contentType: MimeTypes = MimeTypes.text
 
