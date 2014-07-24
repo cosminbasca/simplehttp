@@ -9,23 +9,22 @@ import org.simpleframework.http.{Response, Request}
  */
 
 /**
- * abstract superclass of all request route aware application containers
+ * abstract superclass of all request route aware application containers inheriting application containers
+ * should populate this map with the appropriate handlers for a given route (path)
  *
+ * a simple example:
+ * {{{
+ *   class MyAppContainer[MyApp] = {
+ *      routes += "hello" -> new HellowWorldHandler[MyApp]()
+ *      routes += "other" -> new OtherHandler[MyApp]()
+ *   }
+ * }}}
  * @param application the application passed around to all request handlers
  * @tparam T the type of the application
  */
 abstract class ApplicationContainer[T](val application: Option[T]=None) extends Container {
   /**
-   * the routes [[mutable.Map]], inheriting application containers should populate this map with the
-   * appropriate handlers for a given route (path)
-   *
-   * a simple example:
-   * {{{
-   *   class MyAppContainer[MyApp] = {
-   *      routes += "hello" -> new HellowWorldHandler[MyApp]()
-   *      routes += "other" -> new OtherHandler[MyApp]()
-   *   }
-   * }}}
+   * the routes [[mutable.Map]],
    */
   protected val routes: mutable.Map[String, HttpRouteHandler[T]] = mutable.Map[String, HttpRouteHandler[T]]()
 
