@@ -1,14 +1,10 @@
 package com.simplehttp
 
-import scala.collection.{immutable, mutable}
-import com.simplehttp.MimeTypes._
+import scala.collection.mutable
 import org.simpleframework.http.{Response, Request}
 import java.io.{PrintWriter, StringWriter, PrintStream}
-import org.msgpack.ScalaMessagePack._
-import org.msgpack.`type`.Value
 import org.slf4j.LoggerFactory
 import com.typesafe.scalalogging.slf4j.Logger
-import scala.reflect.io.Streamable
 
 
 /**
@@ -36,7 +32,7 @@ trait HttpRouteHandler[T] {
    *
    * @return the content type
    */
-  def contentType: MimeTypes
+  def contentType: MimeTypes.Value
 
   /**
    * request processor
@@ -58,7 +54,7 @@ trait HttpRouteHandler[T] {
   def handleRequest(request: Request, response: Response, application: Option[T]) = {
     val body: PrintStream = response.getPrintStream
     val time: Long = System.currentTimeMillis()
-    response.setValue("Content-Type", contentType)
+    response.setValue("Content-Type", contentType.toString)
     response.setValue("Server", s"tRush HTTP handler ${BuildInfo.name}-${BuildInfo.version}")
     response.setDate("Date", time)
     response.setDate("Last-Modified", time)
@@ -85,42 +81,6 @@ trait HttpRouteHandler[T] {
     finally {
       body.close()
     }
-  }
-}
-
-/**
- * a [[http://msgpack.org/ MessagePack]] binary message handler trait
- *
- * @tparam T the passed application type
- * @tparam V the processed content type
- */
-trait BinaryMsgPackHandler[T, V] extends HttpRouteHandler[T] {
-  override def contentType: MimeTypes = MimeTypes.binarymsgpack
-
-  def getResult(arguments: immutable.Map[String, Value], application: Option[T]): V
-
-  override def process(request: Request, application: Option[T]): Either[String, Array[Byte]] = {
-    val contentBytes: Array[Byte] = Streamable.bytes(request.getInputStream)
-    if (contentBytes.length > 0) {
-      val arguments: Map[String, Value] = read[Map[String, Value]](contentBytes)
-      Right(write(getResult(arguments, application)))
-    } else {
-      Right(write(getResult(immutable.Map[String, Value](), application)))
-    }
-  }
-}
-
-/**
- * a default request handler. Used by the [[com.simplehttp.ApplicationContainer]] when no handler is found for the
- * current route.
- *
- * The handler simply returns the current version stored in [[com.simplehttp.BuildInfo]]
- */
-object DefaultRouteHandler extends HttpRouteHandler[Any] {
-  override def contentType: MimeTypes = MimeTypes.text
-
-  override def process(request: Request, application: Option[Any]): Either[String, Array[Byte]] = {
-    Left(s"${BuildInfo.name} version ${BuildInfo.version}")
   }
 }
 

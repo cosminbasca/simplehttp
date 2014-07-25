@@ -15,7 +15,7 @@ import org.simpleframework.http.{Response, Request}
  * a simple example:
  * {{{
  *   class MyAppContainer[MyApp] = {
- *      routes += "hello" -> new HellowWorldHandler[MyApp]()
+ *      routes += "hello" -> new HelloWorldHandler[MyApp]()
  *      routes += "other" -> new OtherHandler[MyApp]()
  *   }
  * }}}
