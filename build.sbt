@@ -17,6 +17,7 @@ scalaVersion := "2.10.4"
 
 scalacOptions ++= Seq("-optimize", "-Yinline-warnings", "-feature", "-deprecation")
 
+//scalacOptions in doc ++= Seq("--doc-root-content", "rootdoc.txt")
 
 excludedJars in assembly <<= (fullClasspath in assembly) map { cp =>
   cp filter {
