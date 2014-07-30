@@ -11,8 +11,23 @@ import org.simpleframework.transport.connect.{SocketConnection, Connection}
  * Created by basca on 30/07/14.
  */
 abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App {
+  /**
+   * this method returns the [[ApplicationContainer]]
+   * @return the actual container
+   */
   def container: U
 
+  /**
+   * called on exit (for cleaning up)
+   * @param container the [[ApplicationContainer]]
+   */
+  def cleanup(container: U) = {}
+
+  /**
+   * simple server forever method. This method starts the server and blocks
+   * @param port the port to bind to (only localhost)
+   * @param dieOnBrokenPipe if true than call System.exit (cleanup before)
+   */
   def serveForever(port: Int, dieOnBrokenPipe: Boolean) {
     val server: Server = new ContainerServer(container)
     val conn: Connection = new SocketConnection(server)
@@ -27,9 +42,11 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
       val stdin: BufferedReader = new BufferedReader(new InputStreamReader(System.in))
       try {
         stdin.readLine()
+        cleanup(container)
         System.exit(0)
       } catch {
         case e: java.io.IOException =>
+          cleanup(container)
           System.exit(1)
       }
     }
