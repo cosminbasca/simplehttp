@@ -11,20 +11,26 @@ import scala.reflect.io.Streamable
  *
  * @tparam T the passed application type
  */
-trait MsgpackHandler[U, T] extends HttpRouteHandler[T] {
+abstract class MsgpackHandler[U, T](implicit manifest: Manifest[U]) extends HttpRouteHandler[T] {
   override def contentType: MimeTypes.Value = MimeTypes.BinaryMsgpack
 
   def getResult(arguments: U, application: Option[T]): Any
 
   def empty: U
 
-  override def process(request: Request, application: Option[T]): Either[String, Array[Byte]] = {
+  def readRequest(request: Request): Option[U] = {
     val contentBytes: Array[Byte] = Streamable.bytes(request.getInputStream)
     if (contentBytes.length > 0) {
-      val arguments: U = read[U](contentBytes)
-      Right(write(getResult(arguments, application)))
+      Some(read[U](contentBytes))
     } else {
-      Right(write(getResult(empty, application)))
+      None
+    }
+  }
+
+  override def process(request: Request, application: Option[T]): Either[String, Array[Byte]] = {
+    readRequest(request) match {
+      case Some(arguments) => Right(write(getResult(arguments, application)))
+      case None => Right(write(getResult(empty, application)))
     }
   }
 }
