@@ -10,8 +10,8 @@ import org.simpleframework.transport.connect.{SocketConnection, Connection}
 /**
  * Created by basca on 30/07/14.
  */
-abstract class LocalNotifierServer[T <: ApplicationContainer[Any]] extends App {
-  def container: T
+abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App {
+  def container: U
 
   def serveForever(port: Int, dieOnBrokenPipe: Boolean) {
     val server: Server = new ContainerServer(container)
