@@ -10,12 +10,15 @@ import org.simpleframework.transport.connect.{SocketConnection, Connection}
 /**
  * Created by basca on 30/07/14.
  */
+case class ServerConfig(port: Int = -1, dieOnBrokenPipe: Boolean = true, other: Seq[String] = Seq())
+
+
 abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App {
   /**
    * this method returns the [[ApplicationContainer]]
    * @return the actual container
    */
-  def container: U
+  def container(other: Seq[String]): U
 
   /**
    * called on exit (for cleaning up)
@@ -28,8 +31,9 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
    * @param port the port to bind to (only localhost)
    * @param dieOnBrokenPipe if true than call System.exit (cleanup before)
    */
-  def serveForever(port: Int, dieOnBrokenPipe: Boolean) {
-    val server: Server = new ContainerServer(container)
+  def serveForever(port: Int, dieOnBrokenPipe: Boolean, other: Seq[String]) {
+    val appContainer: U = container(other)
+    val server: Server = new ContainerServer(appContainer)
     val conn: Connection = new SocketConnection(server)
     val address: InetSocketAddress = new InetSocketAddress(port)
     val boundAddress: InetSocketAddress = conn.connect(address).asInstanceOf[InetSocketAddress]
@@ -42,26 +46,37 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
       val stdin: BufferedReader = new BufferedReader(new InputStreamReader(System.in))
       try {
         stdin.readLine()
-        cleanup(container)
+        cleanup(appContainer)
         System.exit(0)
       } catch {
         case e: java.io.IOException =>
-          cleanup(container)
+          cleanup(appContainer)
           System.exit(1)
       }
     }
   }
 
   override def main(args: Array[String]): Unit = {
-    val (port: Int, die: Boolean) = args.length match {
-      case 0 =>
-        (0, false)
-      case 1 =>
-        (args(0).toInt, false)
-      case 2 =>
-        (args(0).toInt, true)
+    val parser = new scopt.OptionParser[ServerConfig]("localNotifierServer") {
+      head(BuildInfo.name, BuildInfo.version)
+
+      opt[Int]('p', "port") action {
+        (x, c) => c.copy(port = x)
+      } text "port is the port to bind to"
+
+      opt[Boolean]('d', "die_on_broken_pipe") action {
+        (x, c) => c.copy(dieOnBrokenPipe = x)
+      } text "if set to true (default) the server will exit when the parent starting process exists"
+
+      arg[String]("<other>...") unbounded() optional() action {
+        (x, c) => c.copy(other = c.other :+ x)
+      } text "optional unbounded args"
     }
 
-    serveForever(port, die)
+    parser.parse(args, ServerConfig()) map { config =>
+      serveForever(config.port, config.dieOnBrokenPipe, config.other)
+    } getOrElse {
+      println("arguments could not be parsed.")
+    }
   }
 }

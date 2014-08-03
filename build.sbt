@@ -11,7 +11,7 @@ name := "simplehttp"
 
 organization := "com.simplehttp"
 
-version := "0.1.9"
+version := "0.2.0"
 
 scalaVersion := "2.10.4"
 
@@ -57,3 +57,5 @@ libraryDependencies += ("org.slf4j" % "slf4j-log4j12" % "1.7.7")
 libraryDependencies += ("org.scalatest" %% "scalatest" % "2.1.7" % "test")
 
 libraryDependencies += ("org.simpleframework" % "simple" % "5.1.6")
+
+libraryDependencies += ("com.github.scopt" %% "scopt" % "3.2.0")
