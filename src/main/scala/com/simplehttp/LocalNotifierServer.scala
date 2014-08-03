@@ -64,8 +64,8 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
         (x, c) => c.copy(port = x)
       } text "port is the port to bind to"
 
-      opt[Boolean]('d', "die_on_broken_pipe") action {
-        (x, c) => c.copy(dieOnBrokenPipe = x)
+      opt[Unit]("die_on_broken_pipe") action {
+        (_, c) => c.copy(dieOnBrokenPipe = true)
       } text "if set to true (default) the server will exit when the parent starting process exists"
 
       arg[String]("<other>...") unbounded() optional() action {

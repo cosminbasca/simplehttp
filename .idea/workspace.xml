@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="83e29796-027d-42f7-82d2-7aaf7d0026e4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala" afterPath="$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.sbt" afterPath="$PROJECT_DIR$/build.sbt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/plugins.sbt" afterPath="$PROJECT_DIR$/project/plugins.sbt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/simplehttp.iml" afterPath="$PROJECT_DIR$/.idea/modules/simplehttp.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="simplehttp.iws" />
@@ -92,8 +89,8 @@
       <file leaf-file-name="LocalNotifierServer.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3423077" vertical-offset="526" max-vertical-offset="1566">
-              <caret line="49" column="98" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.98550725" vertical-offset="526" max-vertical-offset="1566">
+              <caret line="67" column="48" selection-start-line="67" selection-start-column="48" selection-end-line="67" selection-end-column="48" />
               <folding>
                 <element signature="e#24#74#0" expanded="true" />
               </folding>
@@ -158,8 +155,8 @@
         <option value="$PROJECT_DIR$/src/main/scala/com/simplehttp/MsgpackHandler.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/com/simplehttp/SimpleNotifierServer.scala" />
         <option value="$PROJECT_DIR$/project/plugins.sbt" />
-        <option value="$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala" />
         <option value="$PROJECT_DIR$/build.sbt" />
+        <option value="$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala" />
       </list>
     </option>
   </component>
@@ -778,18 +775,22 @@
       <created>1406730971102</created>
       <updated>1406730971102</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="simplehttp version 0.2.0&#10;&#10;- scopt parser for the LocalNotifierServer !">
+      <created>1407079972103</created>
+      <updated>1407079972103</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="62" y="117" width="1653" height="1160" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32771537" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32771537" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32848838" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -837,7 +838,8 @@
     <MESSAGE value="simplehttp version 0.1.7&#10;&#10;- simplified the msgpack converter trait" />
     <MESSAGE value="simplehttp version 0.1.8&#10;&#10;- simplified the MsgpackHandler trait" />
     <MESSAGE value="simplehttp version 0.1.9&#10;&#10;- included LocalNotifierServer" />
-    <option name="LAST_COMMIT_MESSAGE" value="simplehttp version 0.1.9&#10;&#10;- included LocalNotifierServer" />
+    <MESSAGE value="simplehttp version 0.2.0&#10;&#10;- scopt parser for the LocalNotifierServer !" />
+    <option name="LAST_COMMIT_MESSAGE" value="simplehttp version 0.2.0&#10;&#10;- scopt parser for the LocalNotifierServer !" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1225,8 +1227,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3423077" vertical-offset="526" max-vertical-offset="1566">
-          <caret line="49" column="98" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.98550725" vertical-offset="526" max-vertical-offset="1566">
+          <caret line="67" column="48" selection-start-line="67" selection-start-column="48" selection-end-line="67" selection-end-column="48" />
           <folding>
             <element signature="e#24#74#0" expanded="true" />
           </folding>
