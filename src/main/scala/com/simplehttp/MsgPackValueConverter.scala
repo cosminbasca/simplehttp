@@ -37,8 +37,13 @@ trait MsgPackValueConverter[T] {
    */
   def apply(value: Option[Value]): Option[T] = {
     value match {
-      case Some(concreteValue) => Some(convert(concreteValue))
-      case None => None
+      case Some(concreteValue) =>
+        Option(concreteValue) match {
+          case Some(nonNullValue) => Some(convert(nonNullValue))
+          case None => None
+        }
+      case None =>
+        None
     }
   }
  }
