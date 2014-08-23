@@ -5,7 +5,7 @@
       <configuration>
         <option name="compilerLibraryLevel" value="Project" />
         <option name="compilerLibraryName" value="SBT:: scala-compiler-bundle:2.11.2" />
-        <option name="compilerOptions" value="-optimize -Yinline-warnings -feature" />
+        <option name="compilerOptions" value="-optimize -Yclosure-elim -Yinline-warnings -Ywarn-adapted-args -Ywarn-inaccessible -feature" />
         <option name="deprecationWarnings" value="true" />
       </configuration>
     </facet>

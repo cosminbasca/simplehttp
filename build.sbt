@@ -15,15 +15,11 @@ version := "0.2.2"
 
 scalaVersion := "2.11.2"
 
-scalacOptions ++= Seq("-optimize", "-Yinline-warnings", "-feature", "-deprecation")
+crossScalaVersions := Seq("2.10.4", "2.11.2")
+
+scalacOptions ++= Seq("-optimize", "-Yclosure-elim", "-Yinline-warnings", "-Ywarn-adapted-args", "-Ywarn-inaccessible", "-feature", "-deprecation")
 
 //scalacOptions in doc ++= Seq("--doc-root-content", "rootdoc.txt")
-
-excludedJars in assembly <<= (fullClasspath in assembly) map { cp =>
-  cp filter {
-    _.data.getName == "minlog-1.2.jar"
-  }
-}
 
 // ---------------------------------------------------------------------------------------------------------------------
 //
