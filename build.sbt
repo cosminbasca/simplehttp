@@ -11,9 +11,9 @@ name := "simplehttp"
 
 organization := "com.simplehttp"
 
-version := "0.2.1"
+version := "0.2.2"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.2"
 
 scalacOptions ++= Seq("-optimize", "-Yinline-warnings", "-feature", "-deprecation")
 
@@ -46,7 +46,7 @@ buildInfoPackage := "com.simplehttp"
 
 libraryDependencies ++= Seq()
 
-libraryDependencies += ("org.msgpack" %% "msgpack-scala" % "0.6.8").exclude("org.scala-lang", "scala-compiler").exclude("org.scala-lang", "scalap")
+libraryDependencies += ("org.msgpack" %% "msgpack-scala" % "0.6.11").exclude("org.scala-lang", "scala-compiler").exclude("org.scala-lang", "scalap")
 
 libraryDependencies += ("com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2") //.exclude("org.scala-lang", "scala-reflect")
 
