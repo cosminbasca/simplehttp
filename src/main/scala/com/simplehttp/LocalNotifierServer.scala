@@ -10,7 +10,8 @@ import org.simpleframework.transport.connect.{SocketConnection, Connection}
 /**
  * Created by basca on 30/07/14.
  */
-case class ServerConfig(port: Int = -1, dieOnBrokenPipe: Boolean = true, other: Seq[String] = Seq())
+case class ServerConfig(port: Int = -1, dieOnBrokenPipe: Boolean = true, portNotificationPrefix: String = "SERVER PORT=",
+                        other: Seq[String] = Seq())
 
 
 abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App {
@@ -31,14 +32,14 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
    * @param port the port to bind to (only localhost)
    * @param dieOnBrokenPipe if true than call System.exit (cleanup before)
    */
-  def serveForever(port: Int, dieOnBrokenPipe: Boolean, other: Seq[String]) {
+  def serveForever(port: Int, dieOnBrokenPipe: Boolean, portNotificationPrefix: String, other: Seq[String]) {
     val appContainer: U = container(other)
     val server: Server = new ContainerServer(appContainer)
     val conn: Connection = new SocketConnection(server)
     val address: InetSocketAddress = new InetSocketAddress(port)
     val boundAddress: InetSocketAddress = conn.connect(address).asInstanceOf[InetSocketAddress]
 
-    println(s"${boundAddress.getPort}")
+    println(s"$portNotificationPrefix${boundAddress.getPort}")
 
     if (dieOnBrokenPipe) {
       // Exit on EOF or broken pipe.  This ensures that the server dies
@@ -68,13 +69,17 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
         (_, c) => c.copy(dieOnBrokenPipe = true)
       } text "if set to true (default) the server will exit when the parent starting process exists"
 
+      opt[String]('n', "port_notification_prefix") action {
+        (x, c) => c.copy(portNotificationPrefix = x)
+      } text "the port notification prefix used (to detect the port reporting line)"
+
       arg[String]("<other>...") unbounded() optional() action {
         (x, c) => c.copy(other = c.other :+ x)
       } text "optional unbounded args"
     }
 
     parser.parse(args, ServerConfig()) map { config =>
-      serveForever(config.port, config.dieOnBrokenPipe, config.other)
+      serveForever(config.port, config.dieOnBrokenPipe, config.portNotificationPrefix, config.other)
     } getOrElse {
       println("arguments could not be parsed.")
     }
