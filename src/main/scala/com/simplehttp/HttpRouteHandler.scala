@@ -55,7 +55,7 @@ trait HttpRouteHandler[T] {
     val body: PrintStream = response.getPrintStream
     val time: Long = System.currentTimeMillis()
     response.setValue("Content-Type", contentType.toString)
-    response.setValue("Server", s"tRush HTTP handler ${BuildInfo.name}-${BuildInfo.version}")
+    response.setValue("Server", s"${BuildInfo.name}-${BuildInfo.version}")
     response.setDate("Date", time)
     response.setDate("Last-Modified", time)
     //    logger.debug(s"request path: ${request.getPath}")
