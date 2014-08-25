@@ -12,7 +12,7 @@ trait MsgPackValueConverter[T] {
    /**
     * a logger
     */
-   val logger = Logger(LoggerFactory getLogger "ValueConverter")
+   val logger = Logger(LoggerFactory getLogger getClass.getName)
 
    /**
     * convert the given [[http://msgpack.org/ MessagePack]] value

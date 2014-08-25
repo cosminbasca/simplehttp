@@ -19,7 +19,7 @@ trait HttpRouteHandler[T] {
   /**
    * internal logger
    */
-  val logger = Logger(LoggerFactory getLogger "tRush")
+  val logger = Logger(LoggerFactory getLogger getClass.getName)
 
   /**
    * request headers, inheriting classes can add specific headers to this map which will later be included in the
