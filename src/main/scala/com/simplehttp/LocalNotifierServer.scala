@@ -10,7 +10,10 @@ import org.simpleframework.transport.connect.{SocketConnection, Connection}
 /**
  * Created by basca on 30/07/14.
  */
-case class ServerConfig(port: Int = -1, dieOnBrokenPipe: Boolean = true, portNotificationPrefix: String = "SERVER PORT=",
+case class ServerConfig(port: Int = -1,
+                        dieOnBrokenPipe: Boolean = true,
+                        portNotificationPrefix: String = "SERVER PORT=",
+                        numThreads: Int = 10,
                         other: Seq[String] = Seq())
 
 
@@ -32,9 +35,9 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
    * @param port the port to bind to (only localhost)
    * @param dieOnBrokenPipe if true than call System.exit (cleanup before)
    */
-  def serveForever(port: Int, dieOnBrokenPipe: Boolean, portNotificationPrefix: String, other: Seq[String]) {
+  def serveForever(port: Int, dieOnBrokenPipe: Boolean, portNotificationPrefix: String, numThreads: Int, other: Seq[String]) {
     val appContainer: U = container(other)
-    val server: Server = new ContainerServer(appContainer)
+    val server: Server = new ContainerServer(appContainer, numThreads)
     val conn: Connection = new SocketConnection(server)
     val address: InetSocketAddress = new InetSocketAddress(port)
     val boundAddress: InetSocketAddress = conn.connect(address).asInstanceOf[InetSocketAddress]
@@ -73,13 +76,17 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
         (x, c) => c.copy(portNotificationPrefix = x)
       } text "the port notification prefix used (to detect the port reporting line)"
 
+      opt[Int]('n', "num_threads") action {
+        (x, c) => c.copy(numThreads = x)
+      } text "the number of threads to allocate for the worker pool (default=10)"
+
       arg[String]("<other>...") unbounded() optional() action {
         (x, c) => c.copy(other = c.other :+ x)
       } text "optional unbounded args"
     }
 
     parser.parse(args, ServerConfig()) map { config =>
-      serveForever(config.port, config.dieOnBrokenPipe, config.portNotificationPrefix, config.other)
+      serveForever(config.port, config.dieOnBrokenPipe, config.portNotificationPrefix, config.numThreads, config.other)
     } getOrElse {
       println("arguments could not be parsed.")
     }
