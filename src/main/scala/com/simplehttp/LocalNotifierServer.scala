@@ -14,6 +14,8 @@ case class ServerConfig(port: Int = -1,
                         dieOnBrokenPipe: Boolean = true,
                         portNotificationPrefix: String = "SERVER PORT=",
                         numThreads: Int = 10,
+                        asynchronous: Boolean = false,
+                        numAsyncWorkers: Int = 10,
                         other: Seq[String] = Seq())
 
 
@@ -35,28 +37,31 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
    * @param port the port to bind to (only localhost)
    * @param dieOnBrokenPipe if true than call System.exit (cleanup before)
    */
-  def serveForever(port: Int, dieOnBrokenPipe: Boolean, portNotificationPrefix: String, numThreads: Int, other: Seq[String]) {
+  def serveForever(port: Int, dieOnBrokenPipe: Boolean, portNotificationPrefix: String, numThreads: Int, asynchronous: Boolean, numAsyncWorkers: Int, other: Seq[String]) {
     val appContainer: U = container(other)
-    val server: Server = new ContainerServer(appContainer, numThreads)
+    val server: Server = asynchronous match {
+      case true => new ContainerServer(new AsyncApplicationContainerWrapper[U](appContainer), numThreads)
+      case false => new ContainerServer(appContainer, numThreads)
+    }
     val conn: Connection = new SocketConnection(server)
     val address: InetSocketAddress = new InetSocketAddress(port)
     val boundAddress: InetSocketAddress = conn.connect(address).asInstanceOf[InetSocketAddress]
 
     println(s"$portNotificationPrefix${boundAddress.getPort}")
 
-    if (dieOnBrokenPipe) {
-      // Exit on EOF or broken pipe.  This ensures that the server dies
-      // if its parent program dies.
-      val stdin: BufferedReader = new BufferedReader(new InputStreamReader(System.in))
-      try {
-        stdin.readLine()
-        cleanup(appContainer)
-        System.exit(0)
-      } catch {
-        case e: java.io.IOException =>
+    dieOnBrokenPipe match {
+      case true =>
+        val stdin: BufferedReader = new BufferedReader(new InputStreamReader(System.in))
+        try {
+          stdin.readLine()
           cleanup(appContainer)
-          System.exit(1)
-      }
+          System.exit(0)
+        } catch {
+          case e: java.io.IOException =>
+            cleanup(appContainer)
+            System.exit(1)
+        }
+      case false =>
     }
   }
 
@@ -79,13 +84,21 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
       (x, c) => c.copy(numThreads = x)
     } text "the number of threads to allocate for the worker pool (default=10)"
 
+    opt[Unit]("asynchronous") action {
+      (_, c) => c.copy(asynchronous = true)
+    } text "if set to true (default is false) the context is wrapped by an asynchronous context"
+
+    opt[Int]('n', "num_async_workers") action {
+      (x, c) => c.copy(numAsyncWorkers = x)
+    } text "the number of async worker threads to allocate for the async executor (default=10), this parameter is ignored if asynchronous is false"
+
     arg[String]("<other>...") unbounded() optional() action {
       (x, c) => c.copy(other = c.other :+ x)
     } text "optional unbounded args"
   }
 
   parser.parse(args, ServerConfig()) map { config =>
-    serveForever(config.port, config.dieOnBrokenPipe, config.portNotificationPrefix, config.numThreads, config.other)
+    serveForever(config.port, config.dieOnBrokenPipe, config.portNotificationPrefix, config.numThreads, config.asynchronous, config.numAsyncWorkers, config.other)
   } getOrElse {
     println("arguments could not be parsed.")
   }
