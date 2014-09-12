@@ -60,35 +60,33 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
     }
   }
 
-  override def main(args: Array[String]): Unit = {
-    val parser = new scopt.OptionParser[ServerConfig]("localNotifierServer") {
-      head(BuildInfo.name, BuildInfo.version)
+  val parser = new scopt.OptionParser[ServerConfig]("localNotifierServer") {
+    head(BuildInfo.name, BuildInfo.version)
 
-      opt[Int]('p', "port") action {
-        (x, c) => c.copy(port = x)
-      } text "port is the port to bind to"
+    opt[Int]('p', "port") action {
+      (x, c) => c.copy(port = x)
+    } text "port is the port to bind to"
 
-      opt[Unit]("die_on_broken_pipe") action {
-        (_, c) => c.copy(dieOnBrokenPipe = true)
-      } text "if set to true (default) the server will exit when the parent starting process exists"
+    opt[Unit]("die_on_broken_pipe") action {
+      (_, c) => c.copy(dieOnBrokenPipe = true)
+    } text "if set to true (default) the server will exit when the parent starting process exists"
 
-      opt[String]('n', "port_notification_prefix") action {
-        (x, c) => c.copy(portNotificationPrefix = x)
-      } text "the port notification prefix used (to detect the port reporting line)"
+    opt[String]('n', "port_notification_prefix") action {
+      (x, c) => c.copy(portNotificationPrefix = x)
+    } text "the port notification prefix used (to detect the port reporting line)"
 
-      opt[Int]('n', "num_threads") action {
-        (x, c) => c.copy(numThreads = x)
-      } text "the number of threads to allocate for the worker pool (default=10)"
+    opt[Int]('n', "num_threads") action {
+      (x, c) => c.copy(numThreads = x)
+    } text "the number of threads to allocate for the worker pool (default=10)"
 
-      arg[String]("<other>...") unbounded() optional() action {
-        (x, c) => c.copy(other = c.other :+ x)
-      } text "optional unbounded args"
-    }
+    arg[String]("<other>...") unbounded() optional() action {
+      (x, c) => c.copy(other = c.other :+ x)
+    } text "optional unbounded args"
+  }
 
-    parser.parse(args, ServerConfig()) map { config =>
-      serveForever(config.port, config.dieOnBrokenPipe, config.portNotificationPrefix, config.numThreads, config.other)
-    } getOrElse {
-      println("arguments could not be parsed.")
-    }
+  parser.parse(args, ServerConfig()) map { config =>
+    serveForever(config.port, config.dieOnBrokenPipe, config.portNotificationPrefix, config.numThreads, config.other)
+  } getOrElse {
+    println("arguments could not be parsed.")
   }
 }

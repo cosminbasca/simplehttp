@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="83e29796-027d-42f7-82d2-7aaf7d0026e4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/com/simplehttp/AsyncApplicationContainer.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/com/simplehttp/ApplicationContainer.scala" afterPath="$PROJECT_DIR$/src/main/scala/com/simplehttp/ApplicationContainer.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.sbt" afterPath="$PROJECT_DIR$/build.sbt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala" afterPath="$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="simplehttp.iws" />
@@ -78,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AsyncApplicationContainer.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AsyncApplicationContainer.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/com/simplehttp/AsyncApplicationContainer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4232715" vertical-offset="577" max-vertical-offset="1170">
-              <caret line="46" column="64" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="577" max-vertical-offset="1170">
+              <caret line="47" column="120" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
               <folding>
                 <element signature="e#24#80#0" expanded="true" />
               </folding>
@@ -110,21 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.sh" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="162">
-              <caret line="3" column="40" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LocalNotifierServer.scala" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="LocalNotifierServer.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="652" max-vertical-offset="1692">
-              <caret line="46" column="114" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.7521079" vertical-offset="616" max-vertical-offset="1656">
+              <caret line="64" column="98" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -169,8 +157,8 @@
         <option value="$PROJECT_DIR$/src/main/scala/com/simplehttp/HttpRouteHandler.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/com/simplehttp/ApplicationContainer.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/com/simplehttp/AsyncApplicationContainer.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala" />
         <option value="$PROJECT_DIR$/build.sbt" />
+        <option value="$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala" />
       </list>
     </option>
   </component>
@@ -809,7 +797,11 @@
       <created>1408980046133</created>
       <updated>1408980046133</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="simplehttp version 0.2.6&#10;&#10;- async application container is in &#10;- port notification is returned with a prefix ... (so that the line can be identified easily ... )">
+      <created>1410514579106</created>
+      <updated>1410514579106</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -873,7 +865,8 @@
     <MESSAGE value="simplehttp version 0.2.2&#10;&#10;- updated to scala 2.11.2" />
     <MESSAGE value="simplehttp version 0.2.3&#10;&#10;- updated to scala 2.11.2&#10;- logger is named correclty now" />
     <MESSAGE value="simplehttp version 0.2.4&#10;&#10;- port notification is returned with a prefix ... (so that the line can be identified easily ... )" />
-    <option name="LAST_COMMIT_MESSAGE" value="simplehttp version 0.2.4&#10;&#10;- port notification is returned with a prefix ... (so that the line can be identified easily ... )" />
+    <MESSAGE value="simplehttp version 0.2.6&#10;&#10;- async application container is in &#10;- port notification is returned with a prefix ... (so that the line can be identified easily ... )" />
+    <option name="LAST_COMMIT_MESSAGE" value="simplehttp version 0.2.6&#10;&#10;- async application container is in &#10;- port notification is returned with a prefix ... (so that the line can be identified easily ... )" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1225,14 +1218,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="652" max-vertical-offset="1692">
-          <caret line="46" column="114" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build.sbt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="541" max-vertical-offset="1134">
@@ -1243,11 +1228,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/com/simplehttp/AsyncApplicationContainer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4232715" vertical-offset="577" max-vertical-offset="1170">
-          <caret line="46" column="64" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="577" max-vertical-offset="1170">
+          <caret line="47" column="120" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
           <folding>
             <element signature="e#24#80#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/com/simplehttp/LocalNotifierServer.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7521079" vertical-offset="616" max-vertical-offset="1656">
+          <caret line="64" column="98" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
