@@ -49,19 +49,17 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
 
     println(s"$portNotificationPrefix${boundAddress.getPort}")
 
-    dieOnBrokenPipe match {
-      case true =>
-        val stdin: BufferedReader = new BufferedReader(new InputStreamReader(System.in))
-        try {
-          stdin.readLine()
+    if (dieOnBrokenPipe) {
+      val stdin: BufferedReader = new BufferedReader(new InputStreamReader(System.in))
+      try {
+        stdin.readLine()
+        cleanup(appContainer)
+        System.exit(0)
+      } catch {
+        case e: java.io.IOException =>
           cleanup(appContainer)
-          System.exit(0)
-        } catch {
-          case e: java.io.IOException =>
-            cleanup(appContainer)
-            System.exit(1)
-        }
-      case false =>
+          System.exit(1)
+      }
     }
   }
 
@@ -73,7 +71,7 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
         (x, c) => c.copy(port = x)
       } text "port is the port to bind to"
 
-      opt[Unit]("die_on_broken_pipe") action {
+      opt[Unit]("die_on_broken_pipe") optional() action {
         (_, c) => c.copy(dieOnBrokenPipe = true)
       } text "if set to true (default) the server will exit when the parent starting process exists"
 
@@ -81,15 +79,15 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
         (x, c) => c.copy(portNotificationPrefix = x)
       } text "the port notification prefix used (to detect the port reporting line)"
 
-      opt[Int]('n', "num_threads") action {
+      opt[Int]('t', "num_threads") action {
         (x, c) => c.copy(numThreads = x)
       } text "the number of threads to allocate for the worker pool (default=10)"
 
-      opt[Unit]("asynchronous") action {
+      opt[Unit]("asynchronous") optional() action {
         (_, c) => c.copy(asynchronous = true)
       } text "if set to true (default is false) the context is wrapped by an asynchronous context"
 
-      opt[Int]('n', "num_async_workers") action {
+      opt[Int]('w', "num_async_workers") action {
         (x, c) => c.copy(numAsyncWorkers = x)
       } text "the number of async worker threads to allocate for the async executor (default=10), this parameter is ignored if asynchronous is false"
 
