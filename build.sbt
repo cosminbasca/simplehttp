@@ -11,11 +11,9 @@ name := "simplehttp"
 
 organization := "com.simplehttp"
 
-version := "0.2.6"
+version := "0.3.0"
 
-scalaVersion := "2.11.2"
-
-crossScalaVersions := Seq("2.10.4", "2.11.2")
+scalaVersion := "2.11.4"
 
 scalacOptions ++= Seq("-optimize", "-Yclosure-elim", "-Yinline-warnings", "-Ywarn-adapted-args", "-Ywarn-inaccessible", "-feature", "-deprecation")
 
@@ -52,6 +50,6 @@ libraryDependencies += ("org.slf4j" % "slf4j-log4j12" % "1.7.7")
 
 libraryDependencies += ("org.scalatest" %% "scalatest" % "2.1.7" % "test")
 
-libraryDependencies += ("org.simpleframework" % "simple" % "5.1.6")
+libraryDependencies += ("org.simpleframework" % "simple-http" % "6.0.1")
 
 libraryDependencies += ("com.github.scopt" %% "scopt" % "3.2.0")

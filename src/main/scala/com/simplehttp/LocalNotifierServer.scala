@@ -3,8 +3,8 @@ package com.simplehttp
 import java.io.{InputStreamReader, BufferedReader}
 import java.net.InetSocketAddress
 
-import org.simpleframework.http.core.ContainerServer
-import org.simpleframework.transport.Server
+import org.simpleframework.http.core.ContainerSocketProcessor
+import org.simpleframework.transport.SocketProcessor
 import org.simpleframework.transport.connect.{SocketConnection, Connection}
 
 /**
@@ -39,9 +39,9 @@ abstract class LocalNotifierServer[T, U <: ApplicationContainer[T]] extends App 
    */
   def serveForever(port: Int, dieOnBrokenPipe: Boolean, portNotificationPrefix: String, numThreads: Int, asynchronous: Boolean, numAsyncWorkers: Int, other: Seq[String]) {
     val appContainer: U = container(other)
-    val server: Server = asynchronous match {
-      case true => new ContainerServer(new AsyncApplicationContainerWrapper[U](appContainer), numThreads)
-      case false => new ContainerServer(appContainer, numThreads)
+    val server: SocketProcessor = asynchronous match {
+      case true => new ContainerSocketProcessor(new AsyncApplicationContainerWrapper[U](appContainer), numThreads)
+      case false => new ContainerSocketProcessor(appContainer, numThreads)
     }
     val conn: Connection = new SocketConnection(server)
     val address: InetSocketAddress = new InetSocketAddress(port)
