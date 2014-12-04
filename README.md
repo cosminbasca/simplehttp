@@ -1,11 +1,11 @@
 simplehttp
 ==========
 
-simplehttp is simplistic extender of the [simpleframework](http://www.simpleframework.org/) api
+simplehttp is simplistic extender of the [Simpleframework](http://www.simpleframework.org/) api
 
 Important Notes
 ---------------
-This software is the product of research carried out at the [University of Zurich](http://www.ifi.uzh.ch/ddis.html) and comes with no warrenty whatsoever. Have fun!
+This software is the product of research carried out at the [University of Zurich](http://www.ifi.uzh.ch/ddis.html) and comes with no warranty whatsoever. Have fun!
 
 TODO's
 ------
@@ -15,7 +15,7 @@ TODO's
 
 Gotcha's
 --------
-Everytime the project version information is changed, BuildInfor needs to be regenerated. To do that simply run:
+Every time the project version information is changed, BuildInfo needs to be regenerated. To do that simply run:
 
 ```sh
 $ sbt compile
@@ -23,4 +23,4 @@ $ sbt compile
 
 Thanks a lot to
 ---------------
-* [University of Zurich](http://www.ifi.uzh.ch/ddis.html) and the [Swiss National Science Foundation](http://www.snf.ch/en/Pages/default.aspx) are generously funding our research on graph processing and the development of this package.
+* [University of Zurich](http://www.ifi.uzh.ch/ddis.html) and the [Swiss National Science Foundation](http://www.snf.ch/en/Pages/default.aspx) for generously funding the research that led to this software.
