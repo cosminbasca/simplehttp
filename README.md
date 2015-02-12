@@ -39,7 +39,7 @@ class PingContainer (val context:PingContext) extends ApplicationContainer(Some(
   routes += "/ping" -> new PingHandler
 }
 
-object AvalancheEndpoint extends LocalNotifierServer[PingContext, PingContainer] {
+object PingServer extends LocalNotifierServer[PingContext, PingContainer] {
   override def container(sources: Seq[String]): ProtocolContainer = {
     new PingContainer(new PingContext())
   }
